@@ -10,10 +10,13 @@
                 padding: 0;
             }
             #map {
+                bottom: 0px;
                 height: 100%;
+                left: 362px;
+                position: absolute;
+                right: 0px;
             }
-            
-            .options-box {
+            .options-box{
                 background: #fff;
                 border: 1px solid #999;
                 border-radius: 3px;
@@ -36,7 +39,6 @@
             </div>
             <div id="map"></div>
         </div>
-        
         <script>
             var map;
             
@@ -58,29 +60,24 @@
                 
                 var largeInfoWindow = new google.maps.InfoWindow();
                 
-                var bounds = new google.maps.LatLngBounds()
-                
                 for  (var i=0; i < locations.length; i++){
                     var position = locations[i].location;
                     var title = locations[i].title;
                     var marker = new google.maps.Marker({
-                        map: map,
                         position: position,
                         title: title,
                         animation: google.maps.Animation.DROP,
                         id: i
                     });
                     markers.push(marker);
-                    bounds.extend(marker.position);
                     marker.addListener('click', function(){
                         populateInfoWindow(this, largeInfoWindow);
                     });
                 }
-                map.fitBounds(bounds);
                 
                 document.getElementById('show-listings').addEventListener('click', showListings);
                 document.getElementById('hide-listings').addEventListener('click', hideListings);
-                /*
+              }
                 function populateInfoWindow(marker, infowindow) {
                     if (infowindow.marker != marker) {
                         infowindow.marker = marker;
@@ -92,6 +89,21 @@
                     }
                 }
                 
+                function showListings(){
+                    var bounds = new google.maps.LatLngBounds();
+                    for (var i=0; i < markers.length; i++){
+                        markers[i].setMap(map);
+                        bounds.extend(markers[i].position);
+                    }
+                    map.fitBounds(bounds);
+                }
+                
+                function hideListings(){
+                    for (var i=0; i < markers.length; i++){
+                        markers[i].setMap(null);
+                    }
+                }
+                /*
                 var tribeca = {lat: 40.719526, lng: -74.0089934};
                 var marker = new google.maps.Marker({
                     position: tribeca,
@@ -105,7 +117,6 @@
                    infowindow.open(map, marker); 
                 });
                 */
-            }
         </script>
         <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwovETCGfdwJwFEGoSq6dY-0YMa0nglEE&v=3&callback=initMap">
