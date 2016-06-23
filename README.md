@@ -2,6 +2,6 @@
 Simple web application built using javascript and google maps api.
 
 
-(c) 2016, Xeliot, All Rights Reserved
+(c) 2016, ZetaPhase Technologies Inc., All Rights Reserved
 - Licensed under GPLV3
 
