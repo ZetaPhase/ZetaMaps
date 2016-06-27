@@ -175,6 +175,47 @@
                 }
                 
                 
+                function textSearchPlaces() {
+                    var bounds = map.getBounds();
+                    hideMarkers(placeMarkers);
+                    var placesService = new google.maps.places.PlacesService(map);
+                    placesService.textSearch({
+                        query: document.getElementById('places-search').value,
+                        bounds: bounds
+                    }, function(results, status) {
+                        if (status === google.maps.places.PlacesServiceStatus.OK) {
+                            createMarkersForPlaces(results);
+                        }
+                    });
+                }
+                
+                function createMarkersForPlaces(places) {
+                    var bounds = new google.maps.LatLngBounds();
+                    for (var i=0; i < places.length; i++) {
+                        var place = places[i];
+                        var icon = {
+                            url: place.icon,
+                            size: new google.maps.Size(35, 35),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(15, 34),
+                            scaledSize: new google.maps.Size(25, 25)
+                        };
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            icon: icon,
+                            title: place.name,
+                            position: place.geometry.location,
+                            id: place.id
+                        });
+                        placeMarkers.push(marker);
+                        if (place.geometry.viewport) {
+                            bounds.union(place.geometry.viewport);
+                        } else {
+                            bounds.extend(place.geometry.location);
+                        }
+                    }
+                    map.fitBounds(bounds);
+                }
                 
                 /*
                 var tribeca = {lat: 40.719526, lng: -74.0089934};
