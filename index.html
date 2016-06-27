@@ -60,6 +60,8 @@
         <script>
             var map;
             
+            var placeMarkers = [];
+            
             var markers = [];
             
             function initMap() {
@@ -68,11 +70,14 @@
                     center: {lat: 37.311190, lng:-121.777098},
                     zoom: 13
                 });
-                
+                var searchbox = new google.maps.places.Searchbox(
+                    document.getElementById('places-search')
+                );
+                searchbox.setBounds(map.getBounds());
                 var zoomAutocomplete = new google.maps.places.Autocomplete(
                     document.getElementById('zoom-to-area-text')
                 );
-                
+                zoomAutocomplete.bindTo('bounds', map)
                 var locations = [
                     /*
                     {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
@@ -101,6 +106,12 @@
                         populateInfoWindow(this, largeInfoWindow);
                     });
                 }
+                
+                searchbox.addListener('places_changed', function() {
+                    searchBoxPlaces(this);
+                });
+                
+                document.getElemenetById('go-places').addEventListener('click', textSearchPlaces)
                 
                 document.getElementById('show-listings').addEventListener('click', showListings);
                 document.getElementById('hide-listings').addEventListener('click', hideListings);
@@ -138,6 +149,7 @@
                     }
                 }
                 
+                
                 function showListings(){
                     var bounds = new google.maps.LatLngBounds();
                     for (var i=0; i < markers.length; i++){
@@ -147,11 +159,23 @@
                     map.fitBounds(bounds);
                 }
                 
-                function hideListings(){
+                function hideMarkers(markers){
                     for (var i=0; i < markers.length; i++){
                         markers[i].setMap(null);
                     }
                 }
+                
+                function searchBoxPlaces(searchBox){
+                    hideMarkers(placeMarkers);
+                    var places = searchBox.getPlaces();
+                    createMarkersForPlaces(places);
+                    if (places.length == 0){
+                        window.alert('We did not find any places matching that search');
+                    }
+                }
+                
+                
+                
                 /*
                 var tribeca = {lat: 40.719526, lng: -74.0089934};
                 var marker = new google.maps.Marker({
