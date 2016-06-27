@@ -26,6 +26,13 @@
                 text-align: left;
                 width: 340px;
             }
+            #zoom-to-area-text {
+                position: relative;
+                width: 70%;
+            }
+            #zoom-to-area {
+                width: 24%;
+            }
         </style>
     </head>
     <body>
@@ -33,8 +40,17 @@
             <div class="options-box">
                 <h1>Find Your New NYC Home</h1>
                 <div>
-                    <input id="show-listings", type="button", value="Show Listings">
-                    <input id="hide-listings", type="button", value="Hide Listings">
+                    <input id="show-listings" type="button" value="Show Listings">
+                    <input id="hide-listings" type="button" value="Hide Listings">
+                </div>
+                <hr>
+                <div>
+                    <input id="zoom-to-area-text" type="text" placeholder="Enter your favorite area!">
+                    <input id="zoom-to-area" type="button" value="Zoom">
+                </div>
+                <hr>
+                <div>
+                    <span class="text"></span>
                 </div>
             </div>
             <div id="map"></div>
@@ -46,16 +62,25 @@
             
             function initMap() {
                 map = new google.maps.Map(document.getElementById('map'),{
-                    center: {lat: 40.7413549, lng: -73.9980244},
+                    //center: {lat: 40.7413549, lng: -73.9980244},
+                    center: {lat: 37.311190, lng:-121.777098},
                     zoom: 13
                 });
+                
+                var zoomAutocomplete = new google.maps.places.Autocomplete(
+                    document.getElementById('zoom-to-area-text')
+                );
+                
                 var locations = [
+                    /*
                     {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
                     {title: 'Chelsea Soft', location: {lat: 40.7444883, lng: -73.9949465}},
                     {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
                     {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
                     {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
                     {title: 'China Town Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+                    */
+                    {title: 'Home', location: {lat:37.311190, lng:-121.777098}}
                 ];
                 
                 var largeInfoWindow = new google.maps.InfoWindow();
@@ -77,7 +102,29 @@
                 
                 document.getElementById('show-listings').addEventListener('click', showListings);
                 document.getElementById('hide-listings').addEventListener('click', hideListings);
+                document.getElementById('zoom-to-area').addEventListener('click', function(){
+                    zoomtoArea();
+                });
               }
+                function zoomtoArea() {
+                    var geocoder = new google.maps.Geocoder();
+                    var address = document.getElementById('zoom-to-area-text').value;
+                    if (address=='') {
+                        window.alert('You must enter an area, or address.');
+                    } else {
+                        geocoder.geocode(
+                            {address: address,
+                                componentRestrictions: {locality: 'San Jose'}
+                            }, function(results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    map.setCenter(results[0].geometry.location);
+                                    map.setZoom(15);
+                                } else {
+                                    window.alert('We could not find this location - try entering a more specific place');
+                                }
+                            });
+                    }
+                }
                 function populateInfoWindow(marker, infowindow) {
                     if (infowindow.marker != marker) {
                         infowindow.marker = marker;
@@ -119,7 +166,7 @@
                 */
         </script>
         <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwovETCGfdwJwFEGoSq6dY-0YMa0nglEE&v=3&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDwovETCGfdwJwFEGoSq6dY-0YMa0nglEE&v=3&callback=initMap">
         </script>
     </body>
 </html>
