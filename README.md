@@ -13,7 +13,8 @@ For more information and tutorials, please visit our blog [here](blog.zetaphase.
 
 ### Tutorials
 
-[Tutorial-0-Setup](https://blog.zetaphase.io/index.php/2016/06/27/google-maps-javascript-api-tutorial-setup/)
+[Tutorial-0-Setup](https://blog.zetaphase.io/index.php/2016/06/27/google-maps-javascript-api-tutorial-setup/)  
+
 [Tutorial-1-Basic-API-Overview](https://blog.zetaphase.io/index.php/2016/06/29/google-maps-javascript-api-tutorial-1-basic-api-overview/)
 
 
