@@ -9,7 +9,7 @@ Simple web application built using javascript and google maps api.
 
 For developers who want to learn more about developig web apps using the Google Maps JavaScript API, please visit <a href="https://blog.zetaphase.io/index.php/2016/06/27/google-maps-javascript-api-tutorial-setup/">here</a>.
 
-For more information and tutorials, please visit our blog [here](blog.zetaphase.io).
+For more information, tutorials, and projects, please visit our blog [here](blog.zetaphase.io).
 
 ### Tutorials
 
