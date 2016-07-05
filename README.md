@@ -3,6 +3,7 @@ Simple web application built using javascript and google maps api.
 - street view
 - location finding
 - markers
+- zoom
 - etc.
 
 ### Quick Start For Developers
